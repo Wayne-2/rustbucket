@@ -7,7 +7,10 @@ pub use self::errors::{Error, Result};
 #[tokio::main]
 
 async fn main(){
-  let routes = Router::new().merge(dynamic_routes()).fallback_service(static_routes());
+  let routes = Router::new()
+                              .merge(dynamic_routes())
+                              .merge(web::route_login::api_route())
+                              .fallback_service(static_routes());
   let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
   let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
 
